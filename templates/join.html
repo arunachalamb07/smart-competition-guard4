@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Join Team - Smart Guard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><main style="max-width:420px;margin:8vh auto;">
+<div class="panel"><div class="eyebrow">JOIN TEAM</div><h3>Team code கொடுக்கவும்</h3>
+<form id="joinForm" class="team-form" style="flex-direction:column">
+<input id="teamCode" placeholder="Team code (உதா: YT09GGC)" maxlength="12" required>
+<input id="laptopName" placeholder="Laptop name (உதா: Alpha Laptop 2)" maxlength="80" required>
+<button type="submit">Join team</button></form>
+<p id="status" class="muted"></p>
+</div>
+<div class="panel"><small class="muted">இந்த பக்கம் திறந்திருக்கும் வரை laptop "connected" ஆக இருக்கும். Websites கண்காணிக்க Chrome extension-ஐயும் அதே Team Code, Laptop Name உடன் அமைக்கவும்.</small></div>
+</main>
+<script>
+let timer=null;
+async function beat(code,name){
+  const r=await fetch('/api/heartbeat',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({team_code:code,laptop_name:name})});
+  const d=await r.json();
+  if(!r.ok) throw new Error(d.error||'Could not connect');
+  return d;
+}
+document.getElementById('joinForm').addEventListener('submit',async e=>{
+  e.preventDefault();
+  const code=document.getElementById('teamCode').value.trim().toUpperCase();
+  const name=document.getElementById('laptopName').value.trim();
+  const st=document.getElementById('status');
+  try{
+    await beat(code,name);
+    st.textContent='✅ Connected: '+name+' (team '+code+'). இந்த tab-ஐ திறந்து வைக்கவும்.';
+    st.style.color='#9df2cf';
+    if(timer) clearInterval(timer);
+    timer=setInterval(()=>beat(code,name).catch(()=>{st.textContent='⚠️ Connection lost. Retrying...';st.style.color='#ff8b9a';}),15000);
+  }catch(err){
+    st.textContent='❌ '+err.message; st.style.color='#ff8b9a';
+  }
+});
+</script>
+</body></html>

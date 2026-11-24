@@ -1,0 +1,17 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Smart Competition Guard</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body><main style="max-width:420px;margin:8vh auto;">
+<h2>SMART GUARD</h2>
+<div class="panel"><div class="eyebrow">JUDGE · CREATE TEAM</div><h3>Judge login</h3>
+<p class="muted">Team create செய்ய admin password தேவை.</p>
+<form method="post" action="/login" class="team-form">
+<input type="password" name="password" placeholder="Admin password" required>
+<button type="submit">Login</button></form>
+{% if error %}<p style="color:#ff8b9a">{{ error }}</p>{% endif %}
+</div>
+<div class="panel"><div class="eyebrow">PARTICIPANT · JOIN TEAM</div><h3>Team-ல் சேர</h3>
+<p class="muted">Team code கொடுத்து உங்கள் laptop-ஐ இணைக்கவும்.</p>
+<a href="/join"><button type="button">Join team →</button></a>
+</div></main></body></html>

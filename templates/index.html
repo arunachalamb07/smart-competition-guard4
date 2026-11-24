@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Competition Guard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+<header class="topbar">
+  <div><div class="eyebrow">COMPETITION CONTROL CENTER</div><h1>SMART <span>GUARD</span></h1></div>
+  <div class="live"><i></i> LIVE DASHBOARD</div> <a href="/logout" style="color:#9bbcff;margin-left:10px">Logout</a> <button id="soundBtn" class="small" onclick="enableSiren()">🔊 Enable siren sound</button>
+</header>
+<main>
+  <section class="hero">
+    <div><div class="eyebrow">JUDGE ADMIN PANEL</div><h2>Competition overview</h2><p>Team connections, browser activity alerts and reviewable audit history.</p></div>
+    <div class="server-status"><span class="pulse"></span> SERVER RUNNING</div>
+  </section>
+  <section class="stats">
+    <article class="stat"><span>REGISTERED TEAMS</span><strong id="teamCount">0</strong></article>
+    <article class="stat"><span>CONNECTED LAPTOPS</span><strong id="onlineCount">0</strong></article>
+    <article class="stat"><span>REGISTERED LAPTOPS</span><strong id="laptopCount">0</strong></article>
+    <article class="stat alert-stat"><span>UNREVIEWED ALERTS</span><strong id="alertCount">0</strong></article>
+  </section>
+  <section class="two-col">
+    <article class="panel">
+      <div class="panel-head"><div><div class="eyebrow">TEAMS</div><h3>Team registration</h3></div></div>
+      <form id="teamForm" class="team-form">
+        <input id="teamName" placeholder="Enter team name" maxlength="60" required>
+        <button type="submit">＋ Create team</button>
+      </form>
+      <div id="newTeamCode" class="new-code hidden"></div>
+      <div id="teams" class="team-list"></div>
+    </article>
+    <article class="panel">
+      <div class="panel-head"><div><div class="eyebrow">DEVICE STATUS</div><h3>Connected laptops</h3></div></div>
+      <div id="laptops" class="laptop-list empty">No laptops connected yet. Run the laptop agent or configure the browser extension.</div>
+    </article>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><div><div class="eyebrow">SECURITY EVENTS</div><h3>Live activity & judge review</h3></div><span class="muted">Latest 100 events</span></div>
+    <div class="table-wrap"><table><thead><tr><th>TIME</th><th>TEAM / LAPTOP</th><th>EVENT</th><th>DETAIL</th><th>STATUS</th><th></th></tr></thead><tbody id="events"></tbody></table></div>
+  </section>
+  <p class="footnote">Prototype notice: alerts are indicators for judge review, not automatic proof of cheating. Monitoring must be disclosed to participants and used only on competition devices with consent.</p>
+</main>
+<script src="{{ url_for('static', filename='app.js') }}"></script>
+</body></html>
